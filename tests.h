@@ -4,11 +4,11 @@
 
 using namespace std;
 
-void test();
-bool test_1();
-bool test_2();
-bool test_3();
-bool test_4();
-bool test_5();
+void tests();
+bool test1();
+/*bool test2();
+bool test3();
+bool test4();
+bool test5();*/
 
 #endif

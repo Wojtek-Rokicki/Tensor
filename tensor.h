@@ -20,8 +20,8 @@ public:
     ~Tensor();                      //Destruktor
 
     //Przeciazenia operatorow
-    bool operator==(const Tensor & t);
-    bool operator!=(const Tensor & t);
+    bool operator==(const Tensor & t) const;
+    bool operator!=(const Tensor & t) const;
 
     Tensor & operator=(const Tensor & t);
     Tensor operator+(const Tensor & t);
@@ -32,12 +32,12 @@ public:
     Tensor operator*=(const Tensor & t);
 
     //Metody klasy
-    inline Type read(int xr, int yr, int zr){if ( xr>x || yr>y || zr>z ) return ; else return tab[a][b][c];};
-    void change(Type w, int a, int b, int c);
+    inline Type read(int xr, int yr, int zr) const;
+    void change(int xc, int yc, int zc, Type wartosc);
 
     //Funkcje zaprzyjaznione
-    friend ostream & operator<< (ostream & os, const Tensor & t);
-    friend istream & operator>>(istream & is, Tensor & t);
+    friend ostream & operator<< (ostream & os, const Tensor<Type> & t);
+    friend istream & operator>> (istream & is, Tensor<Type> & t);
 };
 
 //Konstruktor domyslny
@@ -104,9 +104,9 @@ bool Tensor<Type>::operator==(const Tensor & t) const{
 template <class Type>
 bool Tensor<Type>::operator!=(const Tensor & t) const{
     if (!(x==t.x && y==t.y && z==t.z)) return true;
-    for (int i=0; i<dimx; i++){
-        for (int j=0; j<dimy; j++){
-            for(int k=0; k<dimz; k++){
+    for (int i=0; i<x; i++){
+        for (int j=0; j<y; j++){
+            for(int k=0; k<z; k++){
                 if(tab[i][j][k]!=t.tab[i][j][k]) return true;
             }
         }
@@ -116,7 +116,7 @@ bool Tensor<Type>::operator!=(const Tensor & t) const{
 
 //Funkcja przeciazajaca operator przypisania
 template <class Type>
-Tensor & Tensor<Type>::operator=(const Tensor & t){
+Tensor<Type> & Tensor<Type>::operator=(const Tensor & t){
     x=t.x;
     y=t.y;
     z=t.z;
@@ -142,7 +142,7 @@ Tensor & Tensor<Type>::operator=(const Tensor & t){
 
 //Funkcja przeciazajaca operator dodawania
 template <class Type>
-Tensor Tensor<Type>::operator+(const Tensor<Type> & t){
+Tensor<Type> Tensor<Type>::operator+(const Tensor<Type> & t){
     if ((x==t.x) && (y==t.y) && (z==t.z)){
         Tensor<Type> wynik(x,y,z);
         for (int i=0; i<x; i++){
@@ -159,7 +159,7 @@ Tensor Tensor<Type>::operator+(const Tensor<Type> & t){
 
 //Funkcja przeciazajaca operator odejmowania
 template <class Type>
-Tensor Tensor<Type>::operator-(const Tensor<Type> & t){
+Tensor<Type> Tensor<Type>::operator-(const Tensor<Type> & t){
 if ((x==t.x) && (y==t.y) && (z==t.z)){
         Tensor<Type> wynik(x,y,z);
         for (int i=0; i<x; i++){
@@ -176,7 +176,7 @@ if ((x==t.x) && (y==t.y) && (z==t.z)){
 
 //Funkcja przeciazajaca operator mnozenia
 template <class Type>
-Tensor Tensor<Type>::operator*(const Tensor<Type> & t){
+Tensor<Type> Tensor<Type>::operator*(const Tensor<Type> & t){
 if ((x==t.x) && (y==t.y) && (z==t.z)){
         Tensor<Type> wynik(x,y,z);
         for (int i=0; i<x; i++){
@@ -192,7 +192,7 @@ if ((x==t.x) && (y==t.y) && (z==t.z)){
 }
 
 template <class Type>
-Tensor Tensor<Type>::operator+=(const Tensor<Type> & t){
+Tensor<Type> Tensor<Type>::operator+=(const Tensor<Type> & t){
     if (!(x==t.x && y==t.y && z==t.z))
         throw 1;
     else{
@@ -208,7 +208,7 @@ Tensor Tensor<Type>::operator+=(const Tensor<Type> & t){
 }
 
 template <class Type>
-Tensor Tensor<Type>::operator-=(const Tensor &t){
+Tensor<Type> Tensor<Type>::operator-=(const Tensor &t){
     if (!(x==t.x && y==t.y && z==t.z))
         throw 1;
     else{
@@ -224,7 +224,7 @@ Tensor Tensor<Type>::operator-=(const Tensor &t){
 }
 
 template <class Type>
-Tensor Tensor::operator*=(const Tensor &t){
+Tensor<Type> Tensor<Type>::operator*=(const Tensor &t){
     if (!(x==t.x && y==t.y && z==t.z))
         throw 1;
     else{
@@ -268,13 +268,13 @@ istream & operator>>(istream & is, Tensor<Type> & t){
 
 //Funkcja przeciazajaca operator wypisywania
 template <class Type>
-ostream & operator<<(ostream & os, const Tensor & t){
+ostream & operator<<(ostream & os, const Tensor<Type> & t){
     for (int i=0; i<t.x; i++){
         os<<"x ["<<i+1<<"]";
         for (int j=0; j<t.y; j++){
             os<<"y ["<<j+1<<"]";
             for (int k=0; k<t.z; k++){
-                os<<"z ("<<k+1<<") = "t.tab[i][j][k]<<" ";
+                os<<"z ("<<k+1<<") = "<<t.tab[i][j][k]<<" ";
             }
             os<<endl;
         }
