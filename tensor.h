@@ -7,6 +7,13 @@
 
 using namespace std;
 
+template <class Type> class Tensor;
+template <class Type> istream & operator>>(istream & is, Tensor<Type> & t);
+
+template <class Type> class Tensor;
+template <class Type> ostream & operator<<(ostream & os, const Tensor<Type> & t);
+
+
 template <class Type>
 class Tensor{
     
@@ -36,8 +43,8 @@ public:
     void change(int xc, int yc, int zc, Type wartosc);
 
     //Funkcje zaprzyjaznione
-    friend ostream & operator<< (ostream & os, const Tensor<Type> & t);
-    friend istream & operator>> (istream & is, Tensor<Type> & t);
+    friend ostream & operator<< <>(ostream & os, const Tensor<Type> & t);
+    friend istream & operator>> <>(istream & is, Tensor<Type> & t);
 };
 
 //Konstruktor domyslny
