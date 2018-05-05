@@ -7,5 +7,6 @@ using namespace std;
 void tests();
 bool test1();
 bool test2();
+bool test3();
 
 #endif

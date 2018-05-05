@@ -12,6 +12,11 @@ void tests(){
 
     if(test2()) cout<<"Test 2: PASS"<<endl;
     else cout<<"Test 2: FAIL"<<endl;
+
+    if(test3()) cout<<"Test 3: PASS"<<endl;
+    else cout<<"Test 3: FAIL"<<endl;
+
+
 }
 
 //Test tensora liczb calkowitych
@@ -101,10 +106,9 @@ bool test1()
        { return true; }
 }
 
+//Test tensora liczb zespolonych
 bool test2()
 {
-    /* TEST LICZB ZESPOLONYCH */
-
     Tensor< complex<int> > A(2,2,2);  /* tensor testowy */
     Tensor< complex<int> > B(2,2,2);  /* tensor testowy */
     Tensor< complex<int> > C(2,2,2);  /* pomocniczy tensor testowy */
@@ -187,4 +191,67 @@ bool test2()
        { return false; }
     else
        { return true; }
+}
+    
+bool test3()
+{
+    cout<<endl;
+    Tensor<int> A(3,1,1);  /* tensor testowy */
+    Tensor<int> B(3,2,1);  /* tensor testowy */
+    Tensor<int> C(3,1,1);  /* pomocniczy tensor testowy */
+    Tensor<int> Wynik(3,1,1);  /* pomocniczy tensor zerowy */
+
+    int bledy=0; /* zmienna liczaca ilosc bledow */
+
+    A.change(1,1,1, 3);
+    A.change(2,1,1, 4);
+    A.change(3,1,1, 5);
+
+    B.change(1,1,1, 2);
+    B.change(1,2,1, 2);
+    B.change(2,1,1, 2);
+    B.change(2,2,1, 2);
+    B.change(3,1,1, 2);
+    B.change(3,2,1, 2);
+
+    //Test dodawania wektorow roznych romiarow
+    try{ A+B; }
+
+    catch(int error_n)
+    {
+        if(error_n==1)
+	    {
+            cout<<"Error "<<error_n<<": "<<"Tensory sa roznych rozmiarow"<<endl;
+            bledy++;
+        }
+    }
+
+    //Test odjemowania wektorow roznych rozmiarow
+    try{ A-B; }
+
+    catch(int error_n)
+    {
+        if(error_n==1)
+	    {
+            cout<<"Error "<<error_n<<": "<<"Tensory sa roznych rozmiarow"<<endl;
+            bledy++;
+        }
+    }
+
+    //Test odjemowania wektorow roznych rozmiarow
+    try{ A+B; }
+
+    catch(int error_n)
+    {
+        if(error_n==1)
+	    {
+            cout<<"Error "<<error_n<<": "<<"Tensory sa roznych rozmiarow"<<endl;
+            bledy++;
+        }
+    }
+
+    if(bledy==3)
+    { return true; }
+    else
+    { return false; }
 }
